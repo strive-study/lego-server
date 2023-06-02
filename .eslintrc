@@ -1,4 +1,7 @@
 {
   "root": true,
-  "extends": ["eslint-config-egg/typescript", "plugin:prettier/recommended"]
+  "extends": ["eslint-config-egg/typescript", "plugin:prettier/recommended"],
+  "rules": {
+    "no-unused-vars": "off"
+  }
 }

@@ -12,10 +12,13 @@ export default (appInfo: EggAppInfo) => {
   // add your special config in here
   const bizConfig = {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
-    baseUrl: 'default.url'
-    // myLogger: {
-    //   allowedMethod: ['POST', 'GET']
-    // }
+    baseUrl: 'default.url',
+    mongoose: {
+      url: 'mongodb://localhost:27017/lego'
+    },
+    myLogger: {
+      allowedMethod: ['POST', 'GET']
+    }
   }
 
   config.security = {

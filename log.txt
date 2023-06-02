@@ -25,3 +25,8 @@ Wed May 31 2023 23:46:15 GMT+0800 (中国标准时间) -- GET -- /test/ -- 9ms
 Wed May 31 2023 23:46:19 GMT+0800 (中国标准时间) -- GET -- /test/1?name=1&color=2 -- 900ms
 Wed May 31 2023 23:47:15 GMT+0800 (中国标准时间) -- GET -- /test/1?name=1&color=2 -- 909ms
 Wed May 31 2023 23:48:46 GMT+0800 (中国标准时间) -- GET -- /test/1?name=1&color=2 -- 3853ms
+Fri Jun 02 2023 19:50:13 GMT+0800 (中国标准时间) -- GET -- / -- 9ms
+Fri Jun 02 2023 20:37:02 GMT+0800 (中国标准时间) -- GET -- / -- 13ms
+Fri Jun 02 2023 20:37:35 GMT+0800 (中国标准时间) -- GET -- / -- 5ms
+Fri Jun 02 2023 20:37:56 GMT+0800 (中国标准时间) -- GET -- /test/1?name=1&color=2 -- 43ms
+Fri Jun 02 2023 21:15:53 GMT+0800 (中国标准时间) -- GET -- /test/1?name=1&color=2 -- 17ms
