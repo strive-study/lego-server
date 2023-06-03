@@ -19,4 +19,11 @@ declare module 'egg' {
       saltRounds: number
     }
   }
+
+  interface Application {
+    sessionMap: {
+      [key: string]: any
+    }
+    sessionStore: any
+  }
 }

@@ -34,12 +34,15 @@
     "egg-tracer": "^2.0.0",
     "egg-validate": "^2.0.2",
     "egg-view-nunjucks": "^2.3.0",
-    "mongoose": "^5.10.9"
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^5.10.9",
+    "mongoose-sequence": "^5.3.1"
   },
   "devDependencies": {
+    "@eggjs/tsconfig": "1",
+    "@types/jsonwebtoken": "^9.0.2",
     "@types/mocha": "10",
     "@types/node": "18",
-    "@eggjs/tsconfig": "1",
     "egg-bin": "6",
     "egg-mock": "5",
     "eslint": "8",

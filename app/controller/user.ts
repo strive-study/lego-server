@@ -1,4 +1,5 @@
 import { Controller } from 'egg'
+import { sign } from 'jsonwebtoken'
 const userCreateRules = {
   username: 'email',
   password: { type: 'password', min: 8 }
@@ -14,8 +15,12 @@ export const userErrorMessages = {
     message: '该邮箱已被注册，请直接登录'
   },
   loginCheckFailInfo: {
-    errno: 101001,
+    errno: 101003,
     message: '用户不存在或者密码错误'
+  },
+  loginValidateFail: {
+    errno: 101004,
+    message: '登录验证失败'
   }
 }
 
@@ -42,7 +47,7 @@ export default class UserController extends Controller {
   }
 
   async loginByEmail() {
-    const { ctx, service } = this
+    const { ctx, service, app } = this
     // 检查用户输入
     const errors = this.validateUserInput()
     if (errors) {
@@ -64,13 +69,26 @@ export default class UserController extends Controller {
     if (!verifyPwd) {
       return ctx.helper.error({ ctx, errorType: 'loginCheckFailInfo' })
     }
+    // ctx.cookies.set('username', userInfo.username, { encrypt: true, })
+    // ctx.session.username = userInfo.username
+    const token = sign({ username: userInfo.username }, app.config.jwt.secret, {
+      expiresIn: 60 * 60
+    })
     // 登录成功
-    ctx.helper.success({ ctx, res: userInfo.toJSON(), msg: '登录成功' })
+    // ctx.helper.success({ ctx, res: userInfo.toJSON(), msg: '登录成功' })
+    ctx.helper.success({ ctx, res: { token }, msg: '登录成功' })
   }
 
-  async findById() {
+  async show() {
     const { ctx, service } = this
-    const userData = await service.user.findById(ctx.params.id)
+    // const { username } = ctx.session
+    // if (!username) {
+    //   return ctx.helper.error({ ctx, errorType: 'loginValidateFail' })
+    // }
+    // ctx.helper.success({ res: username, ctx })
+    // const username = ctx.cookies.get('username', { encrypt: true })
+
+    const userData = await service.user.findById(ctx.state.user.username)
     ctx.helper.success({ res: userData, ctx })
   }
 

@@ -13,12 +13,15 @@ export default (appInfo: EggAppInfo) => {
   const bizConfig = {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
     baseUrl: 'default.url',
+    jwt: {
+      secret: '211234cdvcg'
+    },
     mongoose: {
       url: 'mongodb://localhost:27017/lego'
-    },
-    myLogger: {
-      allowedMethod: ['POST', 'GET']
     }
+    // myLogger: {
+    //   allowedMethod: ['POST', 'GET']
+    // }
   }
 
   config.security = {
@@ -36,6 +39,9 @@ export default (appInfo: EggAppInfo) => {
   }
   config.bcrypt = {
     saltRounds: 10
+  }
+  config.session = {
+    encrypt: false
   }
   // the return config will combines to EggAppConfig
   return {
