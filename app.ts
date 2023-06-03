@@ -1,7 +1,4 @@
-// import { join } from 'path'
 import { IBoot } from 'egg'
-// import assert from 'assert'
-// import { createConnection } from 'mongoose'
 
 export default class AppBoot implements IBoot {
   // private readonly app: Application
@@ -22,7 +19,7 @@ export default class AppBoot implements IBoot {
 
   async willReady(): Promise<void> {
     // console.log('this.app.config.baseDir', this.app.config.baseDir)
-    // const dir = join(this.app.config.baseDir, 'app/model')
+    // const dir = path.join(this.app.config.baseDir, 'app/model')
     // // app/model/user.ts => app.model.User
     // this.app.loader.loadToApp(dir, 'model', {
     //   caseStyle: 'upper'

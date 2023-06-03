@@ -8,4 +8,5 @@ export default (app: Application) => {
 
   router.post('/api/users/create', controller.user.createByEmail)
   router.get('/api/users/:id', controller.user.findById)
+  router.post('/api/users/login', controller.user.loginByEmail)
 }
