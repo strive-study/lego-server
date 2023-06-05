@@ -1,24 +1,25 @@
-import { IBoot } from 'egg'
+import { Application, IBoot } from 'egg'
 
 export default class AppBoot implements IBoot {
-  // private readonly app: Application
-  // constructor(app: Application) {
-  //   this.app = app
-  //   app.sessionMap = {}
-  //   app.sessionStore = {
-  //     async get(key) {
-  //       app.logger.info('key', key)
-  //       return app.sessionMap[key]
-  //     },
-  //     async set(key, value) {
-  //       app.logger.info('key', key)
-  //       app.logger.info('value', value)
-  //       app.sessionMap[key] = value
-  //     },
-  //     async destroy(key) {
-  //       delete app.sessionMap[key]
-  //     }
-  //   }
+  private readonly app: Application
+  constructor(app: Application) {
+    this.app = app
+    // app.sessionMap = {}
+    // app.sessionStore = {
+    //   async get(key) {
+    //     app.logger.info('key', key)
+    //     return app.sessionMap[key]
+    //   },
+    //   async set(key, value) {
+    //     app.logger.info('key', key)
+    //     app.logger.info('value', value)
+    //     app.sessionMap[key] = value
+    //   },
+    //   async destroy(key) {
+    //     delete app.sessionMap[key]
+    //   }
+    // }
+  }
   // const { url } = this.app.config.mongoose
   // assert(url, '[egg-mongoose] url is required on config')
   // const db = createConnection(url)
@@ -32,12 +33,7 @@ export default class AppBoot implements IBoot {
   //   this.app.config.coreMiddleware.unshift('myLogger')
   // }
 
-  async willReady(): Promise<void> {
-    // console.log('this.app.config.baseDir', this.app.config.baseDir)
-    // const dir = path.join(this.app.config.baseDir, 'app/model')
-    // // app/model/user.ts => app.model.User
-    // this.app.loader.loadToApp(dir, 'model', {
-    //   caseStyle: 'upper'
-    // })
+  async didReady(): Promise<void> {
+    console.log('middleware', this.app.middleware)
   }
 }

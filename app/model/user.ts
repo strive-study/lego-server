@@ -1,6 +1,5 @@
 import { Application } from 'egg'
 import { Schema } from 'mongoose'
-// import * as AutoIncrementFactory from 'mongoose-sequence'
 import AutoIncrementFactory from 'mongoose-sequence'
 export interface UserProps {
   username: string
@@ -11,6 +10,9 @@ export interface UserProps {
   phoneNumber?: string
   createdAt: Date
   updatedAt: Date
+  type: 'email' | 'phoneNumber' | 'oauth'
+  provider?: 'gitee' //数据由哪个Oauth添加
+  oauthId?: string
 }
 
 function initUserModel(app: Application) {
@@ -22,17 +24,19 @@ function initUserModel(app: Application) {
         unique: true,
         required: true
       },
-      password: { type: String, required: true },
+      password: { type: String },
       email: { type: String },
       nickName: { type: String },
       picture: { type: String },
-      phoneNumber: { type: String }
+      phoneNumber: { type: String },
+      type: { type: String, default: 'email' },
+      provider: { type: String },
+      oauthID: { type: String }
     },
     {
       timestamps: true,
       toJSON: {
         transform(_doc, ret) {
-          console.log('transform')
           delete ret.password
           delete ret.__v
         }
