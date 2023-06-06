@@ -1,6 +1,7 @@
 import { UserProps } from 'app/model/user'
 import 'egg'
 import { Model } from 'mongoose'
+import OSS, { Options } from 'ali-oss'
 declare module 'egg' {
   // 自动映射model类型
   interface MongooseModels extends IModel {
@@ -13,10 +14,14 @@ declare module 'egg' {
   interface Context {
     genHash(plainText: string): Promise<string>
     compare(plainText: string, hash: sting): Promise<boolean>
+    oss: OSS
   }
   interface EggAppConfig {
     bcrypt: {
       saltRounds: number
+    }
+    oss: {
+      client?: Options
     }
   }
 
@@ -25,5 +30,6 @@ declare module 'egg' {
       [key: string]: any
     }
     sessionStore: any
+    oss: OSS
   }
 }

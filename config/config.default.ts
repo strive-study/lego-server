@@ -88,6 +88,14 @@ export default (appInfo: EggAppInfo) => {
       { prefix: '/uploads', dir: join(appInfo.baseDir, 'uploads') }
     ]
   }
+  config.oss = {
+    client: {
+      accessKeyId: process.env.ALC_ACCESS_KEY || '',
+      accessKeySecret: process.env.ALC_SECRET_KEY || '',
+      bucket: 'strive-lego-server',
+      endpoint: 'oss-cn-beijing.aliyuncs.com'
+    }
+  }
   // the return config will combines to EggAppConfig
   return {
     ...(config as {}),
