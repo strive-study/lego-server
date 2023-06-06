@@ -39,5 +39,6 @@ export default (app: Application) => {
   )
 
   // file
-  router.post('/api/utils/upload', controller.utils.fileLocalUpload)
+  // router.post('/api/utils/upload', controller.utils.fileLocalUpload)
+  router.post('/api/utils/upload', controller.utils.fileUploadByStream)
 }
