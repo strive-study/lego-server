@@ -1,6 +1,6 @@
 import { Application } from 'egg'
 import AutoIncrementFactory from 'mongoose-sequence'
-import { ObjectId } from 'mongoose'
+import { Types } from 'mongoose'
 
 export interface WorkProps {
   id?: number
@@ -15,7 +15,8 @@ export interface WorkProps {
   author: string
   copiedCount: number
   status?: 0 | 1 | 2
-  user: ObjectId
+  user: Types.ObjectId
+  latestPublishAt?: Date
 }
 
 export default (app: Application) => {
@@ -56,6 +57,9 @@ export default (app: Application) => {
       user: {
         type: Schema.Types.ObjectId,
         ref: 'User' //指代引用的collection
+      },
+      latestPublishAt: {
+        type: Date
       }
     },
     {

@@ -1,6 +1,5 @@
 import { Context } from 'egg'
-import { userErrorMessages } from '../controller/user'
-import { workErrorMessages } from '../controller/work'
+import { GlobalErrorType, globalErrorMessages } from 'app/error'
 interface RespType {
   ctx: Context
   res?: any
@@ -10,12 +9,9 @@ interface RespType {
 interface ErrorRespType {
   ctx: Context
   error?: any //自定义类型
-  errorType: keyof (typeof userErrorMessages & typeof workErrorMessages)
+  errorType: GlobalErrorType
 }
-const globalErrorMessages = {
-  ...userErrorMessages,
-  ...workErrorMessages
-}
+
 export default {
   success({ ctx, res, msg }: RespType) {
     ctx.body = {

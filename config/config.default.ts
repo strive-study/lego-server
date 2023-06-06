@@ -33,7 +33,8 @@ export default (appInfo: EggAppInfo) => {
       url: 'mongodb://localhost:27017/lego'
     },
     aliCloudConfig,
-    giteeOauthConfig
+    giteeOauthConfig,
+    H5BaseURL: 'http://localhost:7001/api/pages'
     // myLogger: {
     //   allowedMethod: ['POST', 'GET']
     // }

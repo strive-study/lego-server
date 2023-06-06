@@ -1,11 +1,9 @@
 import { Context, Application, EggAppConfig } from 'egg'
 import { appendFileSync } from 'fs'
 
-export default (options: EggAppConfig['myLogger'], app: Application) => {
+export default (_options: EggAppConfig['myLogger'], _app: Application) => {
   return async (ctx: Context, next: () => Promise<any>) => {
     const startTime = Date.now()
-    console.log(options)
-    console.log(app.config.logger)
     const requestTime = new Date()
     await next()
     const endTime = Date.now()

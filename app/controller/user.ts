@@ -1,4 +1,5 @@
 import { Controller } from 'egg'
+import inputValidate from 'app/decorator/inputValidate'
 const userCreateRules = {
   username: 'email',
   password: { type: 'password', min: 8 }
@@ -19,60 +20,11 @@ const userPhoneCreateRules = {
   },
   veriCode: { type: 'string', format: /^\d{4}$/, message: '验证码格式错误' }
 }
-// A-BB-CCC
-export const userErrorMessages = {
-  // 输入信息格式错误
-  userValidateFail: {
-    errno: 101001,
-    message: '输入信息验证失败'
-  },
-  // 创建用户 用户已经存在
-  createUserAlreadyExists: {
-    errno: 101002,
-    message: '该邮箱已被注册，请直接登录'
-  },
-  // 用户不存在或密码错误
-  loginCheckFailInfo: {
-    errno: 101003,
-    message: '用户不存在或者密码错误'
-  },
-  // 没有token
-  loginValidateFail: {
-    errno: 101004,
-    message: '登录验证失败'
-  },
-  // 发送短信验证码过于频繁
-  sendVeriCodeFrequentlyFailInfo: {
-    errno: 101005,
-    message: '请勿频繁获取短信验证码'
-  },
-  // 登录时，验证码不正确
-  loginVeriCodeIncorrectFailInfo: {
-    errno: 101006,
-    message: '验证码不正确'
-  },
-  // 验证码发送失败
-  sendVeriCodeError: {
-    errno: 101007,
-    message: '验证码发送失败'
-  },
-  giteeOauthError: {
-    errno: 101008,
-    message: 'gitee 授权出错'
-  }
-}
 
 export default class UserController extends Controller {
+  @inputValidate(userCreateRules, 'userValidateFail')
   async createByEmail() {
     const { ctx, service } = this
-    const errors = this.validateUserInput(userCreateRules)
-    if (errors) {
-      return ctx.helper.error({
-        ctx,
-        errorType: 'userValidateFail',
-        error: errors
-      })
-    }
     const userInfo = await service.user.findByUsername(
       ctx.request.body.username
     )
@@ -84,17 +36,10 @@ export default class UserController extends Controller {
     ctx.helper.success({ res: userData, ctx })
   }
 
+  @inputValidate(userCreateRules, 'userValidateFail')
   async loginByEmail() {
     const { ctx, service, app } = this
     // 检查用户输入
-    const errors = this.validateUserInput(userCreateRules)
-    if (errors) {
-      return ctx.helper.error({
-        ctx,
-        errorType: 'userValidateFail',
-        error: errors
-      })
-    }
     const { username, password } = ctx.request.body
     const userInfo = await service.user.findByUsername(username)
     // 检查用户是否存在
@@ -121,17 +66,10 @@ export default class UserController extends Controller {
     ctx.helper.success({ ctx, res: { token }, msg: '登录成功' })
   }
 
+  @inputValidate(userPhoneCreateRules, 'userValidateFail')
   async loginByPhoneNumber() {
     const { ctx, app } = this
     const { phoneNumber, veriCode } = ctx.request.body
-    const errors = this.validateUserInput(userPhoneCreateRules)
-    if (errors) {
-      return ctx.helper.error({
-        ctx,
-        errorType: 'userValidateFail',
-        error: errors
-      })
-    }
 
     const preVeriCode = await (app as any).redis.get(
       `phoneVeriCode-${phoneNumber}`
@@ -146,18 +84,10 @@ export default class UserController extends Controller {
     ctx.helper.success({ res: token, ctx })
   }
 
+  @inputValidate(sendCodeRules, 'userValidateFail')
   async sendVeriCode() {
     const { ctx, app } = this
     const { phoneNumber } = ctx.request.body
-    const errors = this.validateUserInput(sendCodeRules)
-    if (errors) {
-      return ctx.helper.error({
-        ctx,
-        errorType: 'userValidateFail',
-        error: errors
-      })
-    }
-
     // 获取redis缓存
     const preVeriCode = await (app as any).redis.get(
       `phoneVeriCode-${phoneNumber}`
@@ -174,12 +104,10 @@ export default class UserController extends Controller {
     // 生产环境发送短信
     if (app.config.env === 'prod') {
       const res = await ctx.service.user.sendSMS(phoneNumber, veriCode)
-      console.log(res)
       if (res?.body.code !== 'OK') {
         return ctx.helper.error({ ctx, errorType: 'sendVeriCodeError' })
       }
     }
-    console.log(app.config.aliCloudConfig)
     await (app as any).redis.set(
       `phoneVeriCode-${phoneNumber}`,
       veriCode,
@@ -208,7 +136,6 @@ export default class UserController extends Controller {
     const { code } = ctx.request.query
     try {
       const token = await ctx.service.user.loginByGitee(code)
-      // ctx.helper.success({ ctx, res: token })
       await ctx.render('success.nj', { token })
     } catch (error) {
       ctx.helper.error({ ctx, errorType: 'giteeOauthError' })
@@ -227,13 +154,5 @@ export default class UserController extends Controller {
     // const userData = await service.user.findById(ctx.state.user.username)
     const userData = await service.user.findByUsername(ctx.state.user.username)
     ctx.helper.success({ res: userData, ctx })
-  }
-
-  validateUserInput(rules: any) {
-    const { ctx, app } = this
-    // ctx.validate(userCreateRules)
-    const errors = app.validator.validate(rules, ctx.request.body)
-    ctx.logger.warn(errors)
-    return errors
   }
 }

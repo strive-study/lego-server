@@ -11,7 +11,6 @@ export default {
   },
   get axiosInstance(): AxiosInstance {
     if (!this[AXIOS]) {
-      console.log('创建')
       this[AXIOS] = axios.create({
         baseURL: 'https://dog.ceo',
         timeout: 5000
