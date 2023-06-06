@@ -1,6 +1,6 @@
 import { parse, join, extname } from 'path'
-import { createWriteStream, createReadStream } from 'fs'
-import { pipeline } from 'stream'
+import { createWriteStream } from 'fs'
+import { pipeline } from 'stream/promises'
 import { Controller } from 'egg'
 import sharp from 'sharp'
 import { nanoid } from 'nanoid'
@@ -52,23 +52,9 @@ export default class UtilsController extends Controller {
     )
     const target = createWriteStream(savedFilePath)
     const target2 = createWriteStream(savedThumbnailPath)
-    const savePromise = new Promise((resolve, reject) => {
-      // stream.pipe(target).on('finish', resolve).on('error', reject)
-      pipeline(createReadStream('./fake.txt'), target, err => {
-        if (err) {
-          reject(err)
-        }
-        resolve('success')
-      })
-    })
+    const savePromise = pipeline(stream, target)
     const transformer = sharp().resize({ width: 300 }) // 转换流
-    const thumbnailPromise = new Promise((resolve, reject) => {
-      stream
-        .pipe(transformer)
-        .pipe(target2)
-        .on('finish', resolve)
-        .on('error', reject)
-    })
+    const thumbnailPromise = pipeline(stream, transformer, target2)
     try {
       await Promise.all([savePromise, thumbnailPromise])
     } catch (error) {
