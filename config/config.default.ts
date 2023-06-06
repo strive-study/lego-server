@@ -1,5 +1,6 @@
 import { EggAppConfig, EggAppInfo, PowerPartial } from 'egg'
 import dotenv from 'dotenv'
+import { join } from 'path'
 
 dotenv.config()
 
@@ -76,6 +77,18 @@ export default (appInfo: EggAppInfo) => {
     allowMethods: 'GET,HEAD,PUT,OPTIONS,POST,DELETE,PATCH'
   }
 
+  config.multipart = {
+    mode: 'file',
+    tmpdir: join(appInfo.baseDir, 'uploads')
+  }
+  config.static = {
+    // prefix 默认的
+    // dir 文件夹地址
+    dir: [
+      { prefix: '/public', dir: join(appInfo.baseDir, 'app/public') },
+      { prefix: '/uploads', dir: join(appInfo.baseDir, 'uploads') }
+    ]
+  }
   // the return config will combines to EggAppConfig
   return {
     ...(config as {}),

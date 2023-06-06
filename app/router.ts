@@ -37,4 +37,7 @@ export default (app: Application) => {
     jwtMiddleware,
     controller.work.publishTemplate
   )
+
+  // file
+  router.post('/api/utils/upload', controller.utils.fileLocalUpload)
 }
