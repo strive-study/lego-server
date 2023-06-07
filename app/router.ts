@@ -43,5 +43,7 @@ export default (app: Application) => {
   // stream to local
   // router.post('/api/utils/upload', controller.utils.fileUploadByStream)
   // stream to OSS
-  router.post('/api/utils/upload', controller.utils.uploadToOss)
+  // router.post('/api/utils/upload', controller.utils.uploadToOss)
+  // test busboy
+  router.post('/api/utils/upload', controller.utils.testBusboy)
 }
