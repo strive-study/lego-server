@@ -12,12 +12,13 @@ export default (appInfo: EggAppInfo) => {
   config.keys = appInfo.name + '_1685372774890_3274'
 
   // add your egg config in here
-  config.middleware = ['customError']
+  // config.middleware = ['customError']
   const aliCloudConfig = {
     accessKeyId: process.env.ALC_ACCESS_KEY,
     accessKeySecret: process.env.ALC_SECRET_KEY,
     endpoint: 'dysmsapi.aliyuncs.com'
   }
+
   const giteeOauthConfig = {
     cid: process.env.GITEE_CID,
     secret: process.env.GITEE_SECRET,
@@ -25,6 +26,7 @@ export default (appInfo: EggAppInfo) => {
     authURL: 'https://gitee.com/oauth/token?grant_type=authorization_code',
     giteeUserAPI: 'https://gitee.com/api/v5/user'
   }
+
   // add your special config in here
   // 业务逻辑的配置，插件的配置写到最外层
   const bizConfig = {
@@ -54,15 +56,21 @@ export default (appInfo: EggAppInfo) => {
   config.view = {
     defaultViewEngine: 'nunjucks'
   }
+
   config.bcrypt = {
     saltRounds: 10
   }
+
   config.session = {
     encrypt: false
   }
+
   config.jwt = {
-    secret: '211234cdvcg'
+    secret: process.env.JWT_SECRET || '',
+    enable: true,
+    match: ['/api/users/getUserInfo', '/api/works', '/api/utils/upload-img']
   }
+
   config.redis = {
     client: {
       port: 6379,
@@ -76,10 +84,12 @@ export default (appInfo: EggAppInfo) => {
     origin: 'http://localhost:8080',
     allowMethods: 'GET,HEAD,PUT,OPTIONS,POST,DELETE,PATCH'
   }
+
   config.multipart = {
     whitelist: ['.png', '.jpg', '.gif', '.webp'],
     fileSize: '400kb'
   }
+
   config.static = {
     // prefix 默认的
     // dir 文件夹地址
@@ -88,6 +98,7 @@ export default (appInfo: EggAppInfo) => {
       { prefix: '/uploads', dir: join(appInfo.baseDir, 'uploads') }
     ]
   }
+
   config.oss = {
     client: {
       accessKeyId: process.env.ALC_ACCESS_KEY || '',
@@ -96,6 +107,7 @@ export default (appInfo: EggAppInfo) => {
       endpoint: 'oss-cn-beijing.aliyuncs.com'
     }
   }
+
   // the return config will combines to EggAppConfig
   return {
     ...(config as {}),

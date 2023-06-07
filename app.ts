@@ -29,9 +29,11 @@ export default class AppBoot implements IBoot {
   // app.mongoose = db
   // }
 
-  // configWillLoad(): void {
-  //   this.app.config.coreMiddleware.unshift('myLogger')
-  // }
+  configWillLoad(): void {
+    // this.app.config.coreMiddleware.unshift('myLogger')
+    // 前置于jwt中间件
+    this.app.config.coreMiddleware.push('customError')
+  }
 
   async didReady(): Promise<void> {
     console.log('middleware', this.app.middleware)
