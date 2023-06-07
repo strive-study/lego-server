@@ -4,8 +4,31 @@ import { pipeline } from 'stream/promises'
 import { Controller } from 'egg'
 import sharp from 'sharp'
 import { nanoid } from 'nanoid'
+import sendToWormhole from 'stream-wormhole'
 
 export default class UtilsController extends Controller {
+  async uploadToOss() {
+    const { ctx, app } = this
+    const stream = await this.ctx.getFileStream()
+    const savedOssPath = this.pathToUrl(
+      join('xiaoli', nanoid(6) + extname(stream.filename))
+    )
+    try {
+      const result = await ctx.oss.put(savedOssPath, stream)
+      const { name, url } = result
+      app.logger.info(result)
+      ctx.helper.success({
+        ctx,
+        res: {
+          name,
+          url
+        }
+      })
+    } catch (error) {
+      await sendToWormhole(stream)
+      ctx.helper.error({ ctx, errorType: 'imageUploadFail' })
+    }
+  }
   async fileLocalUpload() {
     const { ctx, app } = this
     const { filepath } = ctx.request.files[0]
