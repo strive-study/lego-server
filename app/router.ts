@@ -47,5 +47,5 @@ export default (app: Application) => {
   // test busboy
   // router.post('/api/utils/upload', controller.utils.testBusboy)
   // test co-busboy
-  router.post('/api/utils/upload', controller.utils.uploadMultipleFiles)
+  router.post('/api/utils/upload-img', controller.utils.uploadMultipleFiles)
 }

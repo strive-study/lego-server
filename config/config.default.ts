@@ -76,10 +76,10 @@ export default (appInfo: EggAppInfo) => {
     origin: 'http://localhost:8080',
     allowMethods: 'GET,HEAD,PUT,OPTIONS,POST,DELETE,PATCH'
   }
-  // config.multipart = {
-  //   mode: 'file',
-  //   tmpdir: join(appInfo.baseDir, 'uploads')
-  // }
+  config.multipart = {
+    whitelist: ['.png', '.jpg', '.gif', '.webp'],
+    fileSize: '400kb'
+  }
   config.static = {
     // prefix 默认的
     // dir 文件夹地址
