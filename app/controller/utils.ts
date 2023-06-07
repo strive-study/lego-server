@@ -1,12 +1,15 @@
 import { parse, join, extname } from 'path'
 import { createWriteStream } from 'fs'
 import { pipeline } from 'stream/promises'
-import { Controller } from 'egg'
+import { Controller, FileStream } from 'egg'
 import sharp from 'sharp'
 import { nanoid } from 'nanoid'
 import sendToWormhole from 'stream-wormhole'
 import Busboy from 'busboy'
 export default class UtilsController extends Controller {
+  /**
+   * 上传文件到OSS
+   */
   async uploadToOss() {
     const { ctx, app } = this
     const stream = await this.ctx.getFileStream()
@@ -29,6 +32,46 @@ export default class UtilsController extends Controller {
       ctx.helper.error({ ctx, errorType: 'imageUploadFail' })
     }
   }
+
+  /**
+   * multipart 上传多个文件到阿里云
+   */
+  async uploadMultipleFiles() {
+    const { ctx, app } = this
+    const parts = ctx.multipart()
+    // const part1 = await parts()
+    // app.logger.info('part1', part1)
+    // const part2 = await parts()
+    // app.logger.info('part2', part2)
+
+    const urls: string[] = []
+    // 可读流
+    let part: FileStream | string[]
+    while ((part = await parts())) {
+      // 非文件 不处理
+      if (Array.isArray(part)) {
+        app.logger.info(part)
+      } else {
+        try {
+          const savedOssPath = this.pathToUrl(
+            join('xiaoli', nanoid(6) + extname(part.filename))
+          )
+
+          const result = await ctx.oss.put(savedOssPath, part)
+          const { url } = result
+          urls.push(url)
+        } catch (error) {
+          await sendToWormhole(part)
+          ctx.helper.error({ ctx, errorType: 'imageUploadFail' })
+        }
+      }
+    }
+    ctx.helper.success({ ctx, res: { urls } })
+  }
+
+  /**
+   * promise封装busboy 上传多个文件
+   */
   uploadFilesUseBusboy() {
     const { ctx, app } = this
     return new Promise<string[]>(resolve => {
@@ -57,12 +100,17 @@ export default class UtilsController extends Controller {
       ctx.req.pipe(busboy)
     })
   }
+  /**
+   * busboy测试
+   */
   async testBusboy() {
     const { ctx } = this
     const results = await this.uploadFilesUseBusboy()
     ctx.helper.success({ ctx, res: results })
   }
-
+  /**
+   * file模式上传文件到本地
+   */
   async fileLocalUpload() {
     const { ctx, app } = this
     const { filepath } = ctx.request.files[0]
@@ -93,6 +141,9 @@ export default class UtilsController extends Controller {
     })
   }
 
+  /**
+   * stream模式上传文件到本地
+   */
   async fileUploadByStream() {
     const { ctx, app } = this
     const stream = await this.ctx.getFileStream() //可读流
