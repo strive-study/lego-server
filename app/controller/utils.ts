@@ -6,7 +6,28 @@ import sharp from 'sharp'
 import { nanoid } from 'nanoid'
 import sendToWormhole from 'stream-wormhole'
 import Busboy from 'busboy'
+
 export default class UtilsController extends Controller {
+  splitIdAndUuid(str = '') {
+    const result = { id: '', uuid: '' }
+    if (!str) return result
+    const firstDashIndex = str.indexOf('-')
+    if (firstDashIndex < 0) return result
+    result.id = str.slice(0, firstDashIndex)
+    result.uuid = str.slice(firstDashIndex + 1)
+    return result
+  }
+  async renderH5Page() {
+    const { ctx } = this
+    const { idAndUuid } = ctx.params
+    const query = this.splitIdAndUuid(idAndUuid)
+    try {
+      const pageData = await this.service.utils.renderToPageData(query)
+      await ctx.render('page.nj', pageData)
+    } catch (error) {
+      ctx.helper.error({ ctx, errorType: 'h5WorkNotExistError' })
+    }
+  }
   /**
    * 上传文件到OSS
    */

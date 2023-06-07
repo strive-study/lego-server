@@ -36,4 +36,6 @@ export default (app: Application) => {
   // router.post('/utils/upload', controller.utils.testBusboy)
   // co-busboy
   router.post('/utils/upload-img', controller.utils.uploadMultipleFiles)
+  // SSR
+  router.get('/pages/:idAndUuid', controller.utils.renderH5Page)
 }
