@@ -7,7 +7,6 @@ const buildFileDest = path.resolve(__dirname, '../app/public')
 const templateFileDest = path.resolve(__dirname, '../app/view')
 
 module.exports = env => {
-  console.log('env', env.production)
   return {
     mode: 'production',
     context: path.resolve(__dirname, '../webpack'),
