@@ -1,7 +1,10 @@
 import { Application } from 'egg'
 import AutoIncrementFactory from 'mongoose-sequence'
 import { Types } from 'mongoose'
-
+export interface ChannelProps {
+  name: string
+  id: string
+}
 export interface WorkProps {
   id?: number
   uuid: string
@@ -17,6 +20,7 @@ export interface WorkProps {
   status?: 0 | 1 | 2
   user: Types.ObjectId
   latestPublishAt?: Date
+  channels?: ChannelProps[]
 }
 
 export default (app: Application) => {

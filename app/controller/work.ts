@@ -1,4 +1,5 @@
 import { Controller } from 'egg'
+import { nanoid } from 'nanoid'
 import inputValidate from 'app/decorator/inputValidate'
 import checkPermission from 'app/decorator/checkPermission'
 
@@ -15,6 +16,47 @@ const workCreateRules = {
 }
 
 export default class WorkController extends Controller {
+  // 创建渠道
+  // TODO decorator
+  async createChannel() {
+    const { ctx } = this
+    const { name, workId } = ctx.request.body
+    const newChannel = {
+      name,
+      id: nanoid(6)
+    }
+    console.log(name, workId)
+    const res = await ctx.model.Work.findOneAndUpdate(
+      { id: workId },
+      {
+        $push: {
+          channels: newChannel
+        }
+      },
+      { useFindAndModify: false }
+    )
+    if (res) {
+      ctx.helper.success({ ctx, res: newChannel })
+    } else {
+      ctx.helper.error({ ctx, errorType: 'channelOperateFail' })
+    }
+  }
+
+  async getWorkChannel() {
+    const { ctx } = this
+    const { id } = ctx.params
+    const certainWork = await ctx.model.Work.findOne({ id })
+    if (certainWork) {
+      const { channels } = certainWork
+      ctx.helper.success({
+        ctx,
+        res: { count: channels?.length || 0, list: channels || [] }
+      })
+    } else {
+      ctx.helper.error({ ctx, errorType: 'channelOperateFail' })
+    }
+  }
+
   @inputValidate(workCreateRules, 'workValidateFail')
   async createWork() {
     const { ctx, service } = this

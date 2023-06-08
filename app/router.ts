@@ -38,4 +38,8 @@ export default (app: Application) => {
   router.post('/utils/upload-img', controller.utils.uploadMultipleFiles)
   // SSR
   router.get('/pages/:idAndUuid', controller.utils.renderH5Page)
+
+  // channel
+  router.post('/channels', controller.work.createChannel)
+  router.get('/channels/:id', controller.work.getWorkChannel)
 }
