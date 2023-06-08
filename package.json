@@ -17,7 +17,8 @@
     "lint": "eslint . --ext .ts --cache",
     "tsc": "tsc",
     "clean": "tsc -b --clean",
-    "build:template": "npx webpack --config webpack/webpack.config.js",
+    "build:template-dev": "npx webpack --config webpack/webpack.config.js",
+    "build:template-prod": "npx webpack --env production --config webpack/webpack.config.js && npm run upload",
     "upload": "node webpack/uploadToOSS.js"
   },
   "dependencies": {

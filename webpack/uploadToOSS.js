@@ -26,7 +26,7 @@ async function run() {
       return url
     })
   )
-  console.log('上传成功', res)
+  // console.log('上传成功', res)
 }
 
 run()
