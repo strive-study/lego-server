@@ -61,11 +61,6 @@ export default class UtilsController extends Controller {
     const { ctx, app } = this
     const { fileSize } = app.config.multipart
     const parts = ctx.multipart({ limits: { fileSize: fileSize as number } })
-    // const part1 = await parts()
-    // app.logger.info('part1', part1)
-    // const part2 = await parts()
-    // app.logger.info('part2', part2)
-
     const urls: string[] = []
     // 可读流
     let part: FileStream | string[]

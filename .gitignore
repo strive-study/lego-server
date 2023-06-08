@@ -21,3 +21,4 @@ config/**/*.map
 
 uploads
 .env
+app/public

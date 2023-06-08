@@ -183,7 +183,7 @@
     {
       "name": "l-image",
       "props": {
-        "imageSrc": "http://static.imooc-lego.com/upload-files/%E4%BA%8C%E7%BB%B4%E7%A0%81-663565.png",
+        "src": "http://static.imooc-lego.com/upload-files/%E4%BA%8C%E7%BB%B4%E7%A0%81-663565.png",
         "actionType": "",
         "url": "",
         "height": "47px",
@@ -209,7 +209,7 @@
     {
       "name": "l-image",
       "props": {
-        "imageSrc": "http://static.imooc-lego.com/upload-files/%E5%A4%B4%E5%83%8F1-508783.png",
+        "src": "http://static.imooc-lego.com/upload-files/%E5%A4%B4%E5%83%8F1-508783.png",
         "actionType": "",
         "url": "",
         "height": "50px",
@@ -235,7 +235,7 @@
     {
       "name": "l-image",
       "props": {
-        "imageSrc": "http://static.imooc-lego.com/upload-files/%E5%A4%B4%E5%83%8F2-687396.png",
+        "src": "http://static.imooc-lego.com/upload-files/%E5%A4%B4%E5%83%8F2-687396.png",
         "actionType": "",
         "url": "",
         "height": "50px",
@@ -261,7 +261,7 @@
     {
       "name": "l-image",
       "props": {
-        "imageSrc": "http://static.imooc-lego.com/upload-files/%E5%A4%B4%E5%83%8F3-647737.png",
+        "src": "http://static.imooc-lego.com/upload-files/%E5%A4%B4%E5%83%8F3-647737.png",
         "actionType": "",
         "url": "",
         "height": "50px",
@@ -503,7 +503,7 @@
     {
       "name": "l-image",
       "props": {
-        "imageSrc": "http://static.imooc-lego.com/upload-files/LOGO-517038.png",
+        "src": "http://static.imooc-lego.com/upload-files/LOGO-517038.png",
         "actionType": "",
         "url": "",
         "height": "25px",
@@ -529,7 +529,7 @@
     {
       "name": "l-image",
       "props": {
-        "imageSrc": "http://static.imooc-lego.com/upload-files/%E7%9F%A9%E5%BD%A2-117418.png",
+        "src": "http://static.imooc-lego.com/upload-files/%E7%9F%A9%E5%BD%A2-117418.png",
         "actionType": "",
         "url": "",
         "height": "",

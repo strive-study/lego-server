@@ -1,11 +1,12 @@
 import { Service } from 'egg'
 import { createSSRApp } from 'vue'
-import LegoComponents from 'lego-components'
+// import LegoComponents from 'lego-components'
+import LegoComponents from 'strive-lego-bricks'
 import { renderToString } from 'vue/server-renderer'
 
 export default class UtilsService extends Service {
-  async renderToPageData(query: { id: number; uuid: string }) {
-    const work = await this.ctx.model.Work.findOne(query).lean()
+  async renderToPageData(query: { id: string; uuid: string }) {
+    const work = await this.ctx.model.Work.findOne(query as any).lean()
     if (!work) {
       throw new Error('work not exist')
     }
