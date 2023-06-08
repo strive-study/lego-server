@@ -13,6 +13,7 @@ export default (appInfo: EggAppInfo) => {
 
   // add your egg config in here
   // config.middleware = ['customError']
+  // 短信云
   const aliCloudConfig = {
     accessKeyId: process.env.ALC_ACCESS_KEY,
     accessKeySecret: process.env.ALC_SECRET_KEY,
@@ -98,7 +99,7 @@ export default (appInfo: EggAppInfo) => {
       { prefix: '/uploads', dir: join(appInfo.baseDir, 'uploads') }
     ]
   }
-
+  // oss
   config.oss = {
     client: {
       accessKeyId: process.env.ALC_ACCESS_KEY || '',
