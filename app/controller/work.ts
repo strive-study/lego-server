@@ -25,15 +25,13 @@ export default class WorkController extends Controller {
       name,
       id: nanoid(6)
     }
-    console.log(name, workId)
     const res = await ctx.model.Work.findOneAndUpdate(
       { id: workId },
       {
         $push: {
           channels: newChannel
         }
-      },
-      { useFindAndModify: false }
+      }
     )
     if (res) {
       ctx.helper.success({ ctx, res: newChannel })
@@ -55,6 +53,42 @@ export default class WorkController extends Controller {
     } else {
       ctx.helper.error({ ctx, errorType: 'channelOperateFail' })
     }
+  }
+
+  async updateChannelName() {
+    const { ctx } = this
+    // channel id
+    const { id } = ctx.params
+    const { name } = ctx.request.body
+    // 根据id查找数组channels中的项，找到某一个项的id等于传递id的一项
+    await ctx.model.Work.findOneAndUpdate(
+      {
+        'channels.id': id
+      },
+      {
+        $set: {
+          'channels.$.name': name
+        }
+      }
+    )
+    ctx.helper.success({ ctx, res: { name } })
+  }
+
+  async deleteChannel() {
+    const { ctx } = this
+    // channel id
+    const { id } = ctx.params
+    const work = await ctx.model.Work.findOneAndUpdate(
+      { 'channels.id': id },
+      // 删除特定一项 删除channels属性中id等于传入id的一项
+      {
+        $pull: {
+          channels: { id }
+        }
+      },
+      { new: true }
+    )
+    ctx.helper.success({ ctx, res: work })
   }
 
   @inputValidate(workCreateRules, 'workValidateFail')

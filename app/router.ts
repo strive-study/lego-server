@@ -42,4 +42,6 @@ export default (app: Application) => {
   // channel
   router.post('/channels', controller.work.createChannel)
   router.get('/channels/:id', controller.work.getWorkChannel)
+  router.patch('/channels/updateName/:id', controller.work.updateChannelName)
+  router.delete('/channels/:id', controller.work.deleteChannel)
 }

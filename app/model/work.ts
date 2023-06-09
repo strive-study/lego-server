@@ -64,7 +64,8 @@ export default (app: Application) => {
       },
       latestPublishAt: {
         type: Date
-      }
+      },
+      channels: { type: Array }
     },
     {
       timestamps: true

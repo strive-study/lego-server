@@ -11,6 +11,7 @@ const defaultIndexCondition: Required<IndexCondition> = {
   customSort: { createdAt: -1 },
   find: {}
 }
+
 export default class WorkSerive extends Service {
   async createEmptyWork(payload: WorkProps) {
     const { ctx } = this
