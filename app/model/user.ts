@@ -13,6 +13,7 @@ export interface UserProps {
   type: 'email' | 'phoneNumber' | 'oauth'
   provider?: 'gitee' //数据由哪个Oauth添加
   oauthId?: string
+  role?: 'admin' | 'normal'
 }
 
 function initUserModel(app: Application) {
@@ -31,7 +32,8 @@ function initUserModel(app: Application) {
       phoneNumber: { type: String },
       type: { type: String, default: 'email' },
       provider: { type: String },
-      oauthID: { type: String }
+      oauthID: { type: String },
+      role: { type: String, default: 'normal' }
     },
     {
       timestamps: true,
