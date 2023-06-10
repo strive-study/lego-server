@@ -73,7 +73,7 @@ export default (appInfo: EggAppInfo) => {
       '/api/users/getUserInfo',
       '/api/works',
       '/api/utils/upload-img',
-      '/api/channel'
+      '/api/channels'
     ]
   }
 
