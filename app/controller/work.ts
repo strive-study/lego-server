@@ -92,11 +92,13 @@ export default class WorkController extends Controller {
   }
 
   @inputValidate(workCreateRules, 'workValidateFail')
+  @checkPermission('Work', 'workNoPermissionFail')
   async createWork() {
     const { ctx, service } = this
     const workData = await service.work.createEmptyWork(ctx.request.body)
     ctx.helper.success({ ctx, res: workData })
   }
+
   async copyWork() {
     const { ctx } = this
     const { id } = ctx.params
@@ -107,6 +109,7 @@ export default class WorkController extends Controller {
       return ctx.helper.error({ ctx, errorType: 'workNoPublicFail' })
     }
   }
+
   @checkPermission('Work', 'workNoPermissionFail')
   async myWork() {
     const { ctx } = this
@@ -189,10 +192,12 @@ export default class WorkController extends Controller {
     ctx.helper.success({ ctx, res })
   }
 
+  @checkPermission('Work', 'workNoPermissionFail')
   async publishWork() {
     await this.publish(false)
   }
 
+  @checkPermission('Work', 'workNoPermissionFail')
   async publishTemplate() {
     await this.publish(true)
   }
