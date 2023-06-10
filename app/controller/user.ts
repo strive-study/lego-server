@@ -54,12 +54,10 @@ export default class UserController extends Controller {
     }
     // ctx.cookies.set('username', userInfo.username, { encrypt: true, })
     // ctx.session.username = userInfo.username
-    const token = (app as any).jwt.sign(
+    const token = app.jwt.sign(
       { username: userInfo.username },
       app.config.jwt.secret,
-      {
-        expiresIn: 60 * 60
-      }
+      { expiresIn: app.config.jwtExpires }
     )
     // 登录成功
     // ctx.helper.success({ ctx, res: userInfo.toJSON(), msg: '登录成功' })
@@ -71,9 +69,7 @@ export default class UserController extends Controller {
     const { ctx, app } = this
     const { phoneNumber, veriCode } = ctx.request.body
 
-    const preVeriCode = await (app as any).redis.get(
-      `phoneVeriCode-${phoneNumber}`
-    )
+    const preVeriCode = await app.redis.get(`phoneVeriCode-${phoneNumber}`)
     if (preVeriCode !== veriCode) {
       return ctx.helper.error({
         ctx,
@@ -89,9 +85,7 @@ export default class UserController extends Controller {
     const { ctx, app } = this
     const { phoneNumber } = ctx.request.body
     // 获取redis缓存
-    const preVeriCode = await (app as any).redis.get(
-      `phoneVeriCode-${phoneNumber}`
-    )
+    const preVeriCode = await app.redis.get(`phoneVeriCode-${phoneNumber}`)
     if (preVeriCode) {
       return ctx.helper.error({
         ctx,
@@ -108,12 +102,7 @@ export default class UserController extends Controller {
         return ctx.helper.error({ ctx, errorType: 'sendVeriCodeError' })
       }
     }
-    await (app as any).redis.set(
-      `phoneVeriCode-${phoneNumber}`,
-      veriCode,
-      'ex',
-      60
-    )
+    await app.redis.set(`phoneVeriCode-${phoneNumber}`, veriCode, 'ex', 60)
     ctx.helper.success({
       ctx,
       msg: '验证码发送成功',

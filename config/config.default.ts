@@ -38,7 +38,8 @@ export default (appInfo: EggAppInfo) => {
     },
     aliCloudConfig,
     giteeOauthConfig,
-    H5BaseURL: 'http://localhost:7001/api/pages'
+    H5BaseURL: 'http://localhost:7001/api/pages',
+    jwtExpires: '1h'
     // myLogger: {
     //   allowedMethod: ['POST', 'GET']
     // }
@@ -47,7 +48,8 @@ export default (appInfo: EggAppInfo) => {
   config.security = {
     csrf: {
       enable: false
-    }
+    },
+    domainWhiteList: ['http://localhost:8080']
   }
 
   config.logger = {
@@ -86,10 +88,10 @@ export default (appInfo: EggAppInfo) => {
     }
   }
 
-  config.cors = {
-    origin: 'http://localhost:8080',
-    allowMethods: 'GET,HEAD,PUT,OPTIONS,POST,DELETE,PATCH'
-  }
+  // config.cors = {
+  //   origin: 'http://localhost:8080',
+  //   allowMethods: 'GET,HEAD,PUT,OPTIONS,POST,DELETE,PATCH'
+  // }
 
   config.multipart = {
     whitelist: ['.png', '.jpg', '.gif', '.webp'],
@@ -104,6 +106,7 @@ export default (appInfo: EggAppInfo) => {
       { prefix: '/uploads', dir: join(appInfo.baseDir, 'uploads') }
     ]
   }
+
   // oss
   config.oss = {
     client: {

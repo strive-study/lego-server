@@ -42,7 +42,8 @@ export default class UserService extends Service {
     if (userInfo) {
       const token = app.jwt.sign(
         { username: userInfo.username, _id: userInfo._id },
-        app.config.jwt.secret
+        app.config.jwt.secret,
+        { expiresIn: app.config.jwtExpires }
       )
       return token
     }
@@ -56,7 +57,8 @@ export default class UserService extends Service {
     const newUser = await ctx.model.User.create(userCreatedData)
     const token = app.jwt.sign(
       { username: newUser.username, _id: newUser._id },
-      app.config.jwt.secret
+      app.config.jwt.secret,
+      { expiresIn: app.config.jwtExpires }
     )
     return token
   }
@@ -140,7 +142,8 @@ export default class UserService extends Service {
     if (existUser) {
       const token = app.jwt.sign(
         { username: existUser.username, _id: existUser._id },
-        app.config.jwt.secret
+        app.config.jwt.secret,
+        { expiresIn: app.config.jwtExpires }
       )
       return token
     }
@@ -157,7 +160,8 @@ export default class UserService extends Service {
     const newUser = await ctx.model.User.create(userCreatedData)
     const token = app.jwt.sign(
       { username: newUser.username, _id: newUser._id },
-      app.config.jwt.secret
+      app.config.jwt.secret,
+      { expiresIn: app.config.jwtExpires }
     )
     return token
   }
