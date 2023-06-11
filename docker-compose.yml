@@ -2,7 +2,7 @@ version: '3'
 services:
   # mongodb
   lego-mongo:
-    image : mongo:6
+    image : mongo:5
     container_name : lego-mongo
     volumes:
       - '.docker-volumes/mongo/data:/data/db'
