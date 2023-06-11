@@ -34,7 +34,11 @@ export default (appInfo: EggAppInfo) => {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
     baseUrl: 'default.url',
     mongoose: {
-      url: 'mongodb://localhost:27017/lego'
+      url: 'mongodb://localhost:27017/lego',
+      options: {
+        user: 'xiaoli',
+        pass: '123456'
+      }
     },
     aliCloudConfig,
     giteeOauthConfig,

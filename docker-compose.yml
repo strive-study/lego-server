@@ -4,8 +4,8 @@ services:
   lego-mongo:
     image : mongo
     container_name : lego-mongo
-    volumes:
-      - '.docker-volumes/mongo/data:/data/db'
+    # volumes:
+      # - '.docker-volumes/mongo/data:/data/db'
     ports:
       - 27017:27017
   # redis

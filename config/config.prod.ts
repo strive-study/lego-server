@@ -4,24 +4,22 @@ export default () => {
   const config: PowerPartial<EggAppConfig> = {}
   config.baseUrl = 'http://117.50.177.179:7001'
   // TODO 为 mongoDB 和 redis 添加密码
-  // config.mongoose = {
-  //   client: {
-  //     url: 'mongodb://lego-mongo:27017/lego',
-  //     options: {
-  //       dbName: 'lego',
-  //       user: 'xyz',
-  //       pass: 'pass'
-  //     }
-  //   }
-  // }
   config.mongoose = {
-    url: 'mongodb://lego-mongo:27017/lego'
+    client: {
+      // url: 'mongodb://lego-mongo:27017/lego'
+      url: 'mongodb://lego-mongo:27017/lego'
+      // options: {
+      //   user: 'xiaoli',
+      //   pass: '123456'
+      // }
+    }
   }
 
   config.redis = {
     client: {
       port: 6379,
-      host: 'lego-redis',
+      // host: 'lego-redis',
+      host: 'lego-mongo',
       password: '',
       db: 0
     }
@@ -29,7 +27,7 @@ export default () => {
 
   // 配置CORS允许域名
   config.security = {
-    domainWhiteList: ['http://localhost:8080']
+    domainWhiteList: ['http://117.50.177.179:8080']
   }
 
   // 配置 JWT 过期时间
