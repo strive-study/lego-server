@@ -6,7 +6,7 @@ export default () => {
   // TODO 为 mongoDB 和 redis 添加密码
   // config.mongoose = {
   //   client: {
-  //     url: 'xxx',
+  //     url: 'mongodb://lego-mongo:27017/lego',
   //     options: {
   //       dbName: 'lego',
   //       user: 'xyz',
@@ -14,15 +14,18 @@ export default () => {
   //     }
   //   }
   // }
+  config.mongoose = {
+    url: 'mongodb://lego-mongo:27017/lego'
+  }
 
-  // config.redis = {
-  //   client: {
-  //     port: 6379,
-  //     host: '127.0.0.1',
-  //     password: 'pass',
-  //     db: 0
-  //   }
-  // }
+  config.redis = {
+    client: {
+      port: 6379,
+      host: 'lego-redis',
+      password: '',
+      db: 0
+    }
+  }
 
   // 配置CORS允许域名
   config.security = {
