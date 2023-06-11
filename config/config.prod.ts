@@ -33,8 +33,10 @@ export default () => {
   config.jwtExpires = '2 days'
 
   // TODO 本地URL替换
-  config.giteeOauthConfig!.redirectURL =
-    'http://localhost:7001/api/users/passport/gitee/callback'
+  config.giteeOauthConfig = {
+    redirectURL: 'http://localhost:7001/api/users/passport/gitee/callback'
+  }
+
   // nginx rewrite
   config.H5BaseURL = 'http://localhost:7001'
   return config
