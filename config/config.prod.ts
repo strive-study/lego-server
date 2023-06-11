@@ -5,12 +5,10 @@ export default () => {
   config.baseUrl = 'http://117.50.177.179:7001'
   // TODO 为 mongoDB 和 redis 添加密码
   config.mongoose = {
-    client: {
-      url: 'mongodb://lego-mongo:27017/lego',
-      options: {
-        user: process.env.MONGO_DB_USERNAME,
-        pass: process.env.MONGO_DB_PASSWORD
-      }
+    url: 'mongodb://lego-mongo:27017/lego',
+    options: {
+      user: process.env.MONGO_DB_USERNAME,
+      pass: process.env.MONGO_DB_PASSWORD
     }
   }
 
