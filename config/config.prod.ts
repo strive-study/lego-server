@@ -6,21 +6,19 @@ export default () => {
   // TODO 为 mongoDB 和 redis 添加密码
   config.mongoose = {
     client: {
-      // url: 'mongodb://lego-mongo:27017/lego'
-      url: 'mongodb://lego-mongo:27017/lego'
-      // options: {
-      //   user: 'xiaoli',
-      //   pass: '123456'
-      // }
+      url: 'mongodb://lego-mongo:27017/lego',
+      options: {
+        user: process.env.MONGO_DB_USERNAME,
+        pass: process.env.MONGO_DB_PASSWORD
+      }
     }
   }
 
   config.redis = {
     client: {
       port: 6379,
-      // host: 'lego-redis',
-      host: 'lego-mongo',
-      password: '',
+      host: 'lego-redis',
+      password: process.env.REDIS_PASSWORD,
       db: 0
     }
   }
