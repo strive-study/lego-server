@@ -2,7 +2,7 @@ import { EggAppConfig, PowerPartial } from 'egg'
 
 export default () => {
   const config: PowerPartial<EggAppConfig> = {}
-  config.baseUrl = 'prod.url'
+  config.baseUrl = 'http://117.50.177.179:7001'
   // TODO 为 mongoDB 和 redis 添加密码
   // config.mongoose = {
   //   client: {
@@ -34,10 +34,10 @@ export default () => {
 
   // TODO 本地URL替换
   config.giteeOauthConfig = {
-    redirectURL: 'http://localhost:7001/api/users/passport/gitee/callback'
+    redirectURL: 'http://117.50.177.179:7001/api/users/passport/gitee/callback'
   }
 
   // nginx rewrite
-  config.H5BaseURL = 'http://localhost:7001'
+  config.H5BaseURL = 'http://117.50.177.179:7001'
   return config
 }
