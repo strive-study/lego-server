@@ -4,9 +4,8 @@ export default (app: Application) => {
   // const logger = app.middleware.myLogger({ allowedMethod: ['POST'] }, app)
   const { controller, router } = app
   // const jwt = app.middleware.jwt({ secret: app.config.jwt.secret })
-  router.post('/info', controller.home.index)
-
   router.prefix('/api')
+  router.post('/info', controller.home.index)
   // user
   router.post('/users/create', controller.user.createByEmail)
   router.get('/users/getUserInfo', controller.user.show)

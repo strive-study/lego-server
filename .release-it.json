@@ -1,6 +1,7 @@
 {
   "git": {
-    "requireUpstream": false
+    "requireUpstream": false,
+    "tagName": "v${version}"
   },
 
   "npm": {
