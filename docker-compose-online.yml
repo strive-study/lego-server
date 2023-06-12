@@ -26,7 +26,7 @@ services:
     depends_on:
       - lego-mongo
       - lego-redis
-    image: registry.cn-hangzhou.aliyuncs.com/xiaoli_acr/lego:0.0.2
+    image: registry.cn-hangzhou.aliyuncs.com/xiaoli_acr/lego:{{tag}}
     container_name: lego-backend
     restart: always
     ports:
