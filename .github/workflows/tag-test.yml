@@ -16,8 +16,8 @@ jobs:
           echo ${{github.sha}}
       - name: Find and replace
         uses: jacobtomlinson/gha-find-replace@v2
-          with:
-            find: "{{tag}}"
-            replace: ${{github.ref_name}}
-            include: "docker-compose-online.yml"
+        with:
+          find: '{{tag}}'
+          replace: ${{github.ref_name}}
+          include: 'docker-compose-online.yml'
       - run: cat docker-compose-online.yml
