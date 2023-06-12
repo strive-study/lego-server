@@ -8,7 +8,7 @@ services:
       - '.docker-volumes/mongo/data:/data/db'
       - './mongo-entrypoint/:/docker-entrypoint-initdb.d/'
     ports:
-      - 27017:27017
+      - 27018:27017
     env_file:
       - .env
   # redis
@@ -16,7 +16,7 @@ services:
     image: redis:6
     container_name: lego-redis
     ports:
-      - 6379:6379
+      - 6380:6379
     command: >
       --requirepass ${REDIS_PASSWORD}
     env_file:
@@ -32,6 +32,6 @@ services:
     image: lego-backend
     container_name: lego-backend
     ports:
-      - 7001:7001
+      - 7002:7001
     env_file:
       - .env

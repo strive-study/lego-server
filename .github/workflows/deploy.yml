@@ -1,0 +1,50 @@
+name: Deploy app to server
+on: [push]
+jobs:
+  deploy-and-restart:
+    runs-on: ubuntu-latest
+    steps:
+      # checkout 代码
+      - uses: actions/checkout@v2
+      # 创建env
+      - name: 'create env file'
+        run: |
+          touch .env
+          echo ALC_ACCESS_KEY=${{ secrets.ALC_ACCESS_KEY }} >> .env
+          echo ALC_SECRET_KEY=${{ secrets.ALC_SECRET_KEY }} >> .env
+          echo GITEE_CID=${{ secrets.GITEE_CID }} >> .env
+          echo GITEE_SECRET=${{ secrets.GITEE_SECRET }} >> .env
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+          echo MONGO_INITDB_ROOT_USERNAME=${{ secrets.MONGO_INITDB_ROOT_USERNAME }} >> .env
+          echo MONGO_INITDB_ROOT_PASSWORD=${{ secrets.MONGO_INITDB_ROOT_PASSWORD }} >> .env
+          echo MONGO_DB_USERNAME=${{ secrets.MONGO_DB_USERNAME }} >> .env
+          echo MONGO_DB_PASSWORD=${{ secrets.MONGO_DB_PASSWORD }} >> .env
+          echo REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }} >> .env
+      # 拷贝 .env, docker-compose-online.yml, mongo-entrypoint
+      - name: 'copy file in to one folder'
+        run: |
+          mkdir lego-backend
+          cp .env docker-compose-online.yml lego-backend
+          cp -r mongo-entrypoint lego-backend
+          ls -a lego-backend
+      # scp 拷贝文件到部署服务器
+      - name: 'copy lego-backend folder via scp'
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PWD }}
+          source: 'lego-backend'
+          target: '~/lego'
+      # ssh登录 重启docker服务
+      - name: 'execute ssh and restart docker'
+        uses: 'appleboy/ssh-action@master'
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PWD }}
+          script_stop: true
+          # 登录ACR，停止服务，重启服务，清理.env文件
+          script: |
+            sudo docker login --username=${{ secrets.ACR_USERNAME }} --password=${{ secrets.ACR_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
+            cd ~/lego
