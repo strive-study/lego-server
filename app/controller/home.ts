@@ -1,4 +1,5 @@
 import { Controller } from 'egg'
+import { version } from '../../package.json'
 
 export default class HomeController extends Controller {
   async index() {
@@ -11,7 +12,8 @@ export default class HomeController extends Controller {
       ctx,
       res: {
         dbVersion: version,
-        redisStatus: status
+        redisStatus: status,
+        version
       }
     })
   }
