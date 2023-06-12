@@ -5,7 +5,7 @@ export default (app: Application) => {
   const { controller, router } = app
   // const jwt = app.middleware.jwt({ secret: app.config.jwt.secret })
   router.prefix('/api')
-  router.post('/info', controller.home.index)
+  router.get('/info', controller.home.index)
   // user
   router.post('/users/create', controller.user.createByEmail)
   router.get('/users/getUserInfo', controller.user.show)
