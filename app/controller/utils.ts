@@ -18,16 +18,22 @@ export default class UtilsController extends Controller {
     result.uuid = str.slice(firstDashIndex + 1)
     return result
   }
-  async renderH5Page() {
+  async renderH5Page(mode: 'preview' | 'final') {
     const { ctx } = this
     const { idAndUuid } = ctx.params
     const query = this.splitIdAndUuid(idAndUuid)
     try {
-      const pageData = await this.service.utils.renderToPageData(query)
-      await ctx.render('page.nj', pageData)
+      const pageData = await this.service.utils.renderToPageData(query, mode)
+      await ctx.render('page.nj', { ...pageData, mode })
     } catch (error) {
       ctx.helper.error({ ctx, errorType: 'h5WorkNotExistError' })
     }
+  }
+  async renderFinalPage() {
+    await this.renderH5Page('final')
+  }
+  async renderPreviewPage() {
+    await this.renderH5Page('preview')
   }
   /**
    * 上传文件到OSS

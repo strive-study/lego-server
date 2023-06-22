@@ -87,6 +87,6 @@ export default class WorkSerive extends Service {
       new: true
     })
     const { uuid } = res!
-    return `${H5BaseURL}/P/${id}-${uuid}`
+    return `${H5BaseURL}/p/${id}-${uuid}`
   }
 }

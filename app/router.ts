@@ -38,7 +38,8 @@ export default (app: Application) => {
   // co-busboy
   router.post('/utils/upload-img', controller.utils.uploadMultipleFiles)
   // SSR
-  router.get('/pages/:idAndUuid', controller.utils.renderH5Page)
+  router.get('/pages/:idAndUuid', controller.utils.renderFinalPage)
+  router.get('/pages/preview/:idAndUuid', controller.utils.renderPreviewPage)
 
   // channel
   router.post('/channels', controller.work.createChannel)

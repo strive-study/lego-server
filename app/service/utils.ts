@@ -5,8 +5,15 @@ import LegoComponents from 'strive-lego-bricks'
 import { renderToString } from 'vue/server-renderer'
 
 export default class UtilsService extends Service {
-  async renderToPageData(query: { id: string; uuid: string }) {
-    const work = await this.ctx.model.Work.findOne(query as any).lean()
+  async renderToPageData(
+    query: { id: string; uuid: string },
+    mode: 'preview' | 'final'
+  ) {
+    const searchQuery = {
+      ...query,
+      ...(mode === 'final' && { status: 2 })
+    }
+    const work = await this.ctx.model.Work.findOne(searchQuery as any).lean()
     if (!work) {
       throw new Error('work not exist')
     }
